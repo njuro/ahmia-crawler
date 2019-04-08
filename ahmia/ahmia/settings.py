@@ -10,8 +10,8 @@
 #
 
 import logging
+
 import requests  # To fetch the list of banned domains
-import datetime # Index name according to YEAR-MONTH
 
 BOT_NAME = 'ahmia'
 
@@ -20,8 +20,8 @@ NEWSPIDER_MODULE = 'ahmia.spiders'
 
 ELASTICSEARCH_SERVERS = ['http://localhost:9200']  # For scrapy-elasticsearch
 ELASTICSEARCH_SERVER = ELASTICSEARCH_SERVERS[0]  # For special update
-ELASTICSEARCH_TOR_INDEX = datetime.datetime.now().strftime("tor-%Y-%m")
-ELASTICSEARCH_I2P_INDEX = datetime.datetime.now().strftime("i2p-%Y-%m")
+ELASTICSEARCH_TOR_INDEX = "tor"
+ELASTICSEARCH_I2P_INDEX = "i2p"
 ELASTICSEARCH_TYPE = 'doc'
 
 # For the optional research pipeline

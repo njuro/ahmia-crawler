@@ -3,7 +3,6 @@
 In this module, you can find the i2pSpider class.
 It's a spider to crawl the i2p network.
 """
-import datetime
 
 from scrapy.conf import settings
 from scrapy.linkextractors import LinkExtractor
@@ -21,8 +20,7 @@ class InvisibleInternetSpider(WebSpider):
         'ITEM_PIPELINES': {
             'ahmia.pipelines.I2PPipeline': 200
         },
-        # Automatic index name selection according to YEAR-MONTH, i.e. i2p-2017-12
-        'ELASTICSEARCH_INDEX': datetime.datetime.now().strftime("i2p-%Y-%m")
+        'ELASTICSEARCH_INDEX': "i2p"
     }
     default_start_url = ['http://nekhbet.com/i2p_links.shtml', ]
 

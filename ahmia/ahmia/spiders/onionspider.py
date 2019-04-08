@@ -3,7 +3,6 @@
 In this module, you can find the OnionSpider class.
 It's a spider to crawl the tor network.
 """
-import datetime
 
 from scrapy.conf import settings
 from scrapy.linkextractors import LinkExtractor
@@ -21,8 +20,7 @@ class OnionSpider(WebSpider):
         'ITEM_PIPELINES': {
             'ahmia.pipelines.OnionPipeline': 200
         },
-        # Automatic index name selection according to YEAR-MONTH, i.e. tor-2017-12
-        'ELASTICSEARCH_INDEX': datetime.datetime.now().strftime("tor-%Y-%m")
+        'ELASTICSEARCH_INDEX': "tor"
     }
     if settings['RESEARCH_GATHER']:
         custom_settings['ITEM_PIPELINES']['ahmia.pipelines.HistoricalElasticSearchPipeline'] = 300
