@@ -41,23 +41,23 @@ TARGET_SITES = ""
 # Identify as normal Tor Browser
 USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; rv:45.0) Gecko/20100101 Firefox/45.0"
 
-DOWNLOAD_TIMEOUT = 80  # seconds
+DOWNLOAD_TIMEOUT = 120  # seconds
 DOWNLOAD_DELAY = 1
 
 # Search engine point of view
 CONCURRENT_REQUESTS = 100
 LOG_LEVEL = 'INFO'
 COOKIES_ENABLED = False
-RETRY_ENABLED = False
+RETRY_ENABLED = True
 DOWNLOAD_MAXSIZE = 1000000  # Max-limit in bytes
 REACTOR_THREADPOOL_MAXSIZE = 20
 REDIRECT_ENABLED = False
 AJAXCRAWL_ENABLED = True
 
 # Crawling depth
-DEPTH_LIMIT = 1
+DEPTH_LIMIT = 0
 
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Middlewares
 DOWNLOADER_MIDDLEWARES = {
