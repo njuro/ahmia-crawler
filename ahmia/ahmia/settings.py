@@ -39,21 +39,25 @@ TARGET_SITES = ""
 # Identify as normal Tor Browser
 USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; rv:45.0) Gecko/20100101 Firefox/45.0"
 
-DOWNLOAD_TIMEOUT = 120  # seconds
+DOWNLOAD_TIMEOUT = 15  # seconds
 DOWNLOAD_DELAY = 1
 
 # Search engine point of view
+SCHEDULER_PRIORITY_QUEUE = 'scrapy.pqueues.DownloaderAwarePriorityQueue'
 CONCURRENT_REQUESTS = 100
 LOG_LEVEL = 'INFO'
 COOKIES_ENABLED = False
-RETRY_ENABLED = True
+RETRY_ENABLED = False
 DOWNLOAD_MAXSIZE = 1000000  # Max-limit in bytes
 REACTOR_THREADPOOL_MAXSIZE = 20
-REDIRECT_ENABLED = True
+REDIRECT_ENABLED = False
 AJAXCRAWL_ENABLED = True
+DEPTH_PRIORITY = 1
+SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleFifoDiskQueue'
+SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.FifoMemoryQueue'
 
 # Crawling depth
-DEPTH_LIMIT = 0
+DEPTH_LIMIT = 1
 
 ROBOTSTXT_OBEY = False
 
