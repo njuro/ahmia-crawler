@@ -18,7 +18,7 @@ BOT_NAME = 'ahmia'
 SPIDER_MODULES = ['ahmia.spiders']
 NEWSPIDER_MODULE = 'ahmia.spiders'
 
-ELASTICSEARCH_SERVERS = ['http://elasticsearch:9200']  # For scrapy-elasticsearch
+ELASTICSEARCH_SERVERS = ['http://147.251.124.23:9200']  # For scrapy-elasticsearch
 ELASTICSEARCH_SERVER = ELASTICSEARCH_SERVERS[0]  # For special update
 ELASTICSEARCH_TOR_INDEX = "tor"
 ELASTICSEARCH_I2P_INDEX = "i2p"
