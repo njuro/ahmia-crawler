@@ -56,7 +56,7 @@ SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleFifoDiskQueue'
 SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.FifoMemoryQueue'
 
 # Crawling depth
-DEPTH_LIMIT = 1
+DEPTH_LIMIT = 10
 
 ROBOTSTXT_OBEY = False
 
