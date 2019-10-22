@@ -43,7 +43,6 @@ DOWNLOAD_TIMEOUT = 15  # seconds
 DOWNLOAD_DELAY = 1
 
 # Search engine point of view
-SCHEDULER_PRIORITY_QUEUE = 'scrapy.pqueues.DownloaderAwarePriorityQueue'
 CONCURRENT_REQUESTS = 100
 LOG_LEVEL = 'INFO'
 COOKIES_ENABLED = False
