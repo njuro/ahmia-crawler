@@ -60,7 +60,6 @@ class HistoricalElasticSearchPipeline(ElasticSearchPipeline):
             s_val = str(simhash(item['content']).value)
             content_index_action = {
                 '_index': index_name,
-                '_type': self.settings['ELASTICSEARCH_CONTENT_TYPE'],
                 '_id': s_val,
                 'title': item['raw_title'],
                 'content': item['content']
@@ -68,7 +67,6 @@ class HistoricalElasticSearchPipeline(ElasticSearchPipeline):
             self.items_buffer.append(content_index_action)
             crawl_index_action = {
                 '_index': index_name,
-                '_type': self.settings['ELASTICSEARCH_CRAWL_TYPE'],
                 'crawl_time': datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
                 'content_simhash': s_val,
                 'domain' : item['domain'],
@@ -106,14 +104,12 @@ class CustomElasticSearchPipeline(ElasticSearchPipeline):
         if isinstance(item, DocumentItem):
             index_action = {
                 '_index': self.index_name,
-                '_type': self.settings['ELASTICSEARCH_TYPE'],
                 '_id': hashlib.sha1(item['url'].encode('utf-8')).hexdigest(),
                 '_source': dict(item)
             }
         elif isinstance(item, LinkItem):
-            search_url = "%s/%s/%s/" % (self.settings['ELASTICSEARCH_SERVER'],
-                                        self.settings['ELASTICSEARCH_INDEX'],
-                                        self.settings['ELASTICSEARCH_TYPE'])
+            search_url = "%s/%s/" % (self.settings['ELASTICSEARCH_SERVER'],
+                                     self.settings['ELASTICSEARCH_INDEX'])
             item_id = hashlib.sha1(item['target'].encode('utf-8')).hexdigest()
             search_url = search_url + item_id
             r = requests.get(search_url)
@@ -125,19 +121,15 @@ class CustomElasticSearchPipeline(ElasticSearchPipeline):
                 index_action = {
                     "_op_type": "update",
                     "_index": self.index_name,
-                    "_type": self.settings['ELASTICSEARCH_TYPE'],
                     "_id": item_id,
-                    "doc": {
-                        "anchors": anchors,
-                        "url": item['target'],
-                        "domain": urlparse(item['target']).hostname,
-                        "updated_on": datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
-                    }
+                    "anchors": anchors,
+                    "url": item['target'],
+                    "domain": urlparse(item['target']).hostname,
+                    "updated_on": datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
                 }
             else:
                 index_action = {
                     '_index': self.index_name,
-                    '_type': self.settings['ELASTICSEARCH_TYPE'],
                     '_id': item_id,
                     '_source': dict(item)
                 }
@@ -145,11 +137,8 @@ class CustomElasticSearchPipeline(ElasticSearchPipeline):
             index_action = {
                 "_op_type": "update",
                 "_index": self.index_name,
-                "_type": self.settings['ELASTICSEARCH_TYPE'],
                 "_id": item['url'],
-                "doc": {
-                    "authority": item['score']
-                }
+                "authority": item['score']
             }
         else:
             return

@@ -100,7 +100,6 @@ class WebSpider(CrawlSpider):
                     }
                 },
                 index=self.es_index,
-                doc_type=self.settings['ELASTICSEARCH_TYPE'],
                 _source_exclude=["*"])
         ])
         urls_iter = scan(
@@ -113,7 +112,6 @@ class WebSpider(CrawlSpider):
                 }
             },
             index=self.es_index,
-            doc_type=self.settings['ELASTICSEARCH_TYPE'],
             _source_include=["content", "url"]
         )
 

@@ -18,16 +18,14 @@ BOT_NAME = 'ahmia'
 SPIDER_MODULES = ['ahmia.spiders']
 NEWSPIDER_MODULE = 'ahmia.spiders'
 
-ELASTICSEARCH_SERVERS = ['http://localhost:9200']  # For scrapy-elasticsearch
+ELASTICSEARCH_SERVERS = ['http://elasticsearch:9200']  # For scrapy-elasticsearch
 ELASTICSEARCH_SERVER = ELASTICSEARCH_SERVERS[0]  # For special update
 ELASTICSEARCH_TOR_INDEX = "tor"
 ELASTICSEARCH_I2P_INDEX = "i2p"
-ELASTICSEARCH_TYPE = 'doc'
+ELASTICSEARCH_TYPE = "unused"  # required for scrapyelasticsearch package
 
 # For the optional research pipeline
 ELASTICSEARCH_RESEARCH_INDEX = 'research'
-ELASTICSEARCH_CONTENT_TYPE = 'content'
-ELASTICSEARCH_CRAWL_TYPE = 'crawl'
 RESEARCH_GATHERING = False
 
 ELASTICSEARCH_UNIQ_KEY = 'url'
@@ -51,7 +49,7 @@ COOKIES_ENABLED = False
 RETRY_ENABLED = True
 DOWNLOAD_MAXSIZE = 1000000  # Max-limit in bytes
 REACTOR_THREADPOOL_MAXSIZE = 20
-REDIRECT_ENABLED = False
+REDIRECT_ENABLED = True
 AJAXCRAWL_ENABLED = True
 
 # Crawling depth
