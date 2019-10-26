@@ -25,4 +25,4 @@ class InvisibleInternetSpider(WebSpider):
     default_start_url = ['http://nekhbet.com/i2p_links.shtml', ]
 
     def get_link_extractor(self):
-        return LinkExtractor(allow=r'.i2p',)
+        return LinkExtractor(allow=r'^(https?:\/\/)?(\w*\.)*(i2p)(\/.*)?$', )
