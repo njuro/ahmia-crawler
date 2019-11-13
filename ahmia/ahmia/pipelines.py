@@ -145,22 +145,8 @@ class CustomElasticSearchPipeline(ElasticSearchPipeline):
 
 
 class OnionPipeline(CustomElasticSearchPipeline):
-    def __init__(self, settings):
-        self.settings = settings
-
-    @classmethod
-    def from_crawler(cls, crawler):
-        return cls(crawler.settings)
-
     index_name = "tor"
 
 
 class I2PPipeline(CustomElasticSearchPipeline):
-    def __init__(self, settings):
-        self.settings = settings
-
-    @classmethod
-    def from_crawler(cls, crawler):
-        return cls(crawler.settings)
-
     index_name = "i2p"
