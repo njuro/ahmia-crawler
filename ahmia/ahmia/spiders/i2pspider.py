@@ -21,7 +21,7 @@ class InvisibleInternetSpider(WebSpider):
         },
         'ELASTICSEARCH_INDEX': "i2p"
     }
-    default_start_url = ['http://nekhbet.com/i2p_links.shtml', ]
+    default_start_url = ['http://identiguy.i2p/', ]
 
     def get_link_extractor(self):
         return LinkExtractor(allow=r'^(https?:\/\/)?(\w*\.)*(i2p)(\/.*)?$', )
