@@ -81,5 +81,5 @@ HTTPS_PROXY_TOR_PROXIES = ["http://localhost:8123/"]  # Tor HTTPS Polipo proxy
 # Tor HTTP Python proxies localhost:15000 ... localhost:15009
 HTTP_PROXY_TOR_PROXIES = ["http://localhost:1500" + str(i) for i in range(0,10)]
 # i2p proxy settings
-HTTP_PROXY_I2P = "http://localhost:4444/" # HTTP i2p proxy in localhost
-HTTPS_PROXY_I2P = "http://localhost:4445/" # HTTPS i2p proxy in localhost
+HTTP_PROXY_I2P = "http://147.251.124.23:4444/"  # HTTP i2p proxy in localhost
+HTTPS_PROXY_I2P = "http://147.251.124.23:4445/"  # HTTPS i2p proxy in localhost
