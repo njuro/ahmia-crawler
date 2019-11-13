@@ -75,13 +75,6 @@ for md5 in response.text.split("\n"):
     if len(md5) is 32:
         BANNED_DOMAINS.append(md5)
 
-FAKE_DOMAINS = []
-response = requests.get('https://ahmia.fi/static/fakelist.txt')
-for onion in response.text.split("\n"):
-    onion = onion.strip().replace(" ", "")
-    if len(onion) is 16:
-        FAKE_DOMAINS.append('%s.onion' % onion)
-
 # Tor proxy settings
 HTTPS_PROXY_TOR_PROXIES = ["http://localhost:8123/"]  # Tor HTTPS Polipo proxy
 # Tor HTTP Python proxies localhost:15000 ... localhost:15009

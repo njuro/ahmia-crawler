@@ -3,27 +3,26 @@
 In this module, you can find the OnionSpider class.
 It's a spider to crawl the tor network.
 """
-
-from scrapy.conf import settings
+import requests
 from scrapy.linkextractors import LinkExtractor
 
 from .base import WebSpider
 
 
 class OnionSpider(WebSpider):
+
     """
     Crawls the tor network.
     """
     name = "ahmia-tor"
-    es_index = settings['ELASTICSEARCH_TOR_INDEX']
+    es_index = "tor"
     custom_settings = {
         'ITEM_PIPELINES': {
             'ahmia.pipelines.OnionPipeline': 200
         },
         'ELASTICSEARCH_INDEX': "tor"
     }
-    if settings['RESEARCH_GATHER']:
-        custom_settings['ITEM_PIPELINES']['ahmia.pipelines.HistoricalElasticSearchPipeline'] = 300
+
     default_start_url = \
         ['http://zqktlwi4fecvo6ri.onion/wiki/index.php/Main_Page',
          'http://tt3j2x4k5ycaa5zt.onion/',
@@ -39,7 +38,14 @@ class OnionSpider(WebSpider):
         default_start_url.append(url + str(i))
 
     def get_link_extractor(self):
+        FAKE_DOMAINS = []
+        response = requests.get('https://ahmia.fi/static/fakelist.txt')
+        for onion in response.text.split("\n"):
+            onion = onion.strip().replace(" ", "")
+            if len(onion) is 16:
+                FAKE_DOMAINS.append('%s.onion' % onion)
+
         return LinkExtractor(allow=[r'^http://[a-z2-7]{16}.onion', r'^http://[a-z2-7]{56}.onion'],
                              deny=[r'^https://blockchainbdgpzk.onion/address/',
                                    r'^https://blockchainbdgpzk.onion/tx/'],
-                             deny_domains=settings.get('FAKE_DOMAINS'))
+                             deny_domains=FAKE_DOMAINS)

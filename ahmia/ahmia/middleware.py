@@ -13,11 +13,18 @@ import random
 import re
 from urllib.parse import urlparse
 
-from scrapy.conf import settings
 from scrapy.exceptions import IgnoreRequest
 
 
 class ProxyMiddleware(object):
+
+    def __init__(self, settings):
+        self.settings = settings
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(crawler.settings)
+
     """Middleware for .onion/.i2p addresses."""
     def process_request(self, request, spider):  # todo pylint:disable=unused-argument
         """Process incoming request."""
@@ -26,9 +33,9 @@ class ProxyMiddleware(object):
         if ".onion" in domain and ".onion." not in domain:
             # List of proxies available
             if parsed_uri.scheme == "https": # For those few HTTPS onion websites
-                tor_proxy_list = settings.get('HTTPS_PROXY_TOR_PROXIES')
+                tor_proxy_list = self.settings.get('HTTPS_PROXY_TOR_PROXIES')
             else: # Plain text HTTP without TLS
-                tor_proxy_list = settings.get('HTTP_PROXY_TOR_PROXIES')
+                tor_proxy_list = self.settings.get('HTTP_PROXY_TOR_PROXIES')
             # Always select the same proxy for the same onion domain
             # This will keep only one underlining Tor circuit to the onion service
             # Onion addresses form an uniform distribution
@@ -39,12 +46,20 @@ class ProxyMiddleware(object):
             request.meta['proxy'] = random.choice(tor_proxy_list)
         elif ".i2p" in domain and ".i2p." not in domain:
             if parsed_uri.scheme == "https":
-                request.meta['proxy'] = settings.get('HTTPS_PROXY_I2P')
+                request.meta['proxy'] = self.settings.get('HTTPS_PROXY_I2P')
             else:
-                request.meta['proxy'] = settings.get('HTTP_PROXY_I2P')
+                request.meta['proxy'] = self.settings.get('HTTP_PROXY_I2P')
 
 
 class FilterBannedDomains(object):
+
+    def __init__(self, settings):
+        self.settings = settings
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(crawler.settings)
+
     """
     Middleware to filter requests to banned domains.
     """
@@ -54,7 +69,7 @@ class FilterBannedDomains(object):
         domain = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
         domain = domain.replace("http://", "").replace("https://", "") \
                                               .replace("/", "")
-        banned_domains = settings.get('BANNED_DOMAINS')
+        banned_domains = self.settings.get('BANNED_DOMAINS')
         if hashlib.md5(domain.encode('utf-8')).hexdigest() in banned_domains:
             # Do not execute this request
             request.meta['proxy'] = ""

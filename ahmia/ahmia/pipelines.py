@@ -13,17 +13,11 @@ from datetime import datetime
 from urllib.parse import urlparse
 
 import requests
-from scrapy.conf import settings
 from scrapyelasticsearch.scrapyelasticsearch import ElasticSearchPipeline
 
 from .items import DocumentItem, LinkItem, AuthorityItem
 
 logger = logging.getLogger(__name__)
-
-
-# *** Optional: for research ***
-if settings['RESEARCH_GATHER']:
-    from simhash import Simhash
 
 
 # *** Optional: for research ***
@@ -151,8 +145,22 @@ class CustomElasticSearchPipeline(ElasticSearchPipeline):
 
 
 class OnionPipeline(CustomElasticSearchPipeline):
-    index_name = settings['ELASTICSEARCH_TOR_INDEX']
+    def __init__(self, settings):
+        self.settings = settings
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(crawler.settings)
+
+    index_name = "tor"
 
 
 class I2PPipeline(CustomElasticSearchPipeline):
-    index_name = settings['ELASTICSEARCH_I2P_INDEX']
+    def __init__(self, settings):
+        self.settings = settings
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(crawler.settings)
+
+    index_name = "i2p"

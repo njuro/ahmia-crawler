@@ -4,7 +4,6 @@ In this module, you can find the i2pSpider class.
 It's a spider to crawl the i2p network.
 """
 
-from scrapy.conf import settings
 from scrapy.linkextractors import LinkExtractor
 
 from .base import WebSpider
@@ -15,7 +14,7 @@ class InvisibleInternetSpider(WebSpider):
     Crawls the i2p network.
     """
     name = "ahmia-i2p"
-    es_index = settings['ELASTICSEARCH_I2P_INDEX']
+    es_index = "i2p"
     custom_settings = {
         'ITEM_PIPELINES': {
             'ahmia.pipelines.I2PPipeline': 200

@@ -14,7 +14,6 @@ import html2text
 import igraph as ig
 from elasticsearch.helpers import scan
 from scrapy import signals
-from scrapy.conf import settings
 from scrapy.http import Request
 from scrapy.http.response.html import HtmlResponse
 from scrapy.loader import ItemLoader
@@ -38,12 +37,13 @@ class WebSpider(CrawlSpider):
 
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
-        spider = super(WebSpider, cls).from_crawler(crawler, *args, **kwargs)
+        spider = super(WebSpider, cls).from_crawler(crawler, crawler.settings, *args, **kwargs)
         if crawler.settings.get('FULL_PAGERANK_COMPUTE', False):
             crawler.signals.connect(spider.on_idle, signals.spider_idle)
         return spider
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, settings, *args, **kwargs):
+        self.settings = settings
         self.rules = [Rule(self.get_link_extractor(),
                            callback=self.parse_item,
                            process_links=self.limit_links,
